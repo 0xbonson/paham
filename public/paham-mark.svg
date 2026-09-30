@@ -1,0 +1,22 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 32 32"
+  fill="none"
+>
+  <!-- Left opaque transaction shell -->
+  <path
+    d="M2 8.2L13 2V6.8L8.1 9.6V22.4L13 25.2V30L2 23.8V8.2Z"
+    fill="#181B19"
+  />
+
+  <!-- Right opaque transaction shell -->
+  <path
+    d="M30 8.2L19 2V6.8L23.9 9.6V22.4L19 25.2V30L30 23.8V8.2Z"
+    fill="#181B19"
+  />
+
+  <!-- Decoded transaction rows -->
+  <rect x="10.3" y="11" width="11.4" height="2.25" fill="#355C67"/>
+  <rect x="10.3" y="14.9" width="11.4" height="2.25" fill="#355C67"/>
+  <rect x="10.3" y="18.8" width="11.4" height="2.25" fill="#355C67"/>
+</svg>

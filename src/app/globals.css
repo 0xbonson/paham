@@ -1,8 +1,17 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f1eee6;
+  --surface: #fbfaf5;
+  --surface-2: #e8e5dc;
+  --foreground: #181b19;
+  --muted: #676c67;
+  --border: #d1cec4;
+  --primary: #355c67;
+  --primary-dark: #294b54;
+  --danger: #b64a3b;
+  --warning: #9b652e;
+  --success: #466653;
 }
 
 @theme inline {
@@ -12,15 +21,676 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  background: var(--background);
 }
 
 body {
+  margin: 0;
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: #355c6728;
+  color: #181b19;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+a,
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:focus-visible,
+a:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid #355c67;
+  outline-offset: 3px;
+}
+
+textarea::placeholder {
+  color: #9a9d98;
+}
+
+/* PAHAM uses solid paper — intentionally no gradients/glow. */
+.paham-paper {
+  background: #f1eee6;
+}
+
+/* Asymmetric dossier shape becomes a recurring PAHAM motif. */
+.paham-dossier {
+  position: relative;
+  clip-path: polygon(
+    0 0,
+    calc(100% - 18px) 0,
+    100% 18px,
+    100% 100%,
+    0 100%
+  );
+}
+
+.paham-dossier::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 18px;
+  height: 18px;
+  background: #355c67;
+  pointer-events: none;
+}
+
+.paham-report {
+  position: relative;
+}
+
+.paham-report::before {
+  content: "";
+  position: absolute;
+  left: -1px;
+  top: 28px;
+  bottom: 28px;
+  width: 3px;
+  background: #355c67;
+}
+
+.paham-report-danger::before {
+  background: #b64a3b;
+}
+
+.paham-index {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 10px;
+  letter-spacing: .12em;
+  color: #747974;
+}
+
+.paham-rule {
+  height: 1px;
+  background: #d1cec4;
+}
+
+.paham-status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: #466653;
+}
+
+.paham-trace-row {
+  display: grid;
+  grid-template-columns: 34px 1fr auto;
+  gap: 14px;
+  align-items: center;
+  min-height: 64px;
+  border-top: 1px solid #d1cec4;
+}
+
+.paham-trace-row:first-child {
+  border-top: 0;
+}
+
+.paham-trace-number {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 10px;
+  color: #8a8e89;
+}
+
+.paham-trace-label {
+  font-size: 12px;
+  color: #6e736e;
+}
+
+.paham-trace-value {
+  margin-top: 3px;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 12px;
+  color: #282c29;
+}
+
+.paham-surface {
+  box-shadow:
+    0 1px 0 rgba(24, 27, 25, .04),
+    0 16px 36px rgba(24, 27, 25, .035);
+}
+
+.paham-reward-mark {
+  position: relative;
+}
+
+.paham-reward-mark::before,
+.paham-reward-mark::after {
+  content: "";
+  position: absolute;
+  width: 14px;
+  height: 14px;
+}
+
+.paham-reward-mark::before {
+  left: 0;
+  top: 0;
+  border-left: 2px solid #355c67;
+  border-top: 2px solid #355c67;
+}
+
+.paham-reward-mark::after {
+  right: 0;
+  bottom: 0;
+  border-right: 2px solid #355c67;
+  border-bottom: 2px solid #355c67;
+}
+
+@media (max-width: 640px) {
+  .paham-dossier {
+    clip-path: polygon(
+      0 0,
+      calc(100% - 12px) 0,
+      100% 12px,
+      100% 100%,
+      0 100%
+    );
+  }
+
+  .paham-dossier::after {
+    width: 12px;
+    height: 12px;
+  }
+
+  .paham-trace-row {
+    grid-template-columns: 28px 1fr;
+  }
+
+  .paham-trace-row > :last-child {
+    grid-column: 2;
+  }
+}
+
+
+/* ========================================================
+   PAHAM V3 USEFULNESS LAYER
+   ======================================================== */
+
+.paham-dossier {
+  isolation: isolate;
+}
+
+.paham-dossier::after {
+  z-index: 3;
+}
+
+.paham-dossier > * {
+  position: relative;
+  z-index: 1;
+}
+
+.paham-corner-mark {
+  position: relative;
+}
+
+.paham-corner-mark::before {
+  content: "";
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  left: -1px;
+  top: -1px;
+  border-left: 1px solid #355c67;
+  border-top: 1px solid #355c67;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  button,
+  a {
+    transition-duration: 160ms;
+  }
+}
+
+
+/* ========================================================
+   PAHAM V4 TRANSACTION X-RAY
+   A visual language for inspecting calldata.
+   No gradients. No glow. No glass.
+   ======================================================== */
+
+.xray-shell {
+  position: relative;
+  overflow: hidden;
+}
+
+.xray-shell::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 41px;
+  width: 1px;
+  background: #d7d4cb;
+  opacity: .52;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.xray-shell::after {
+  content: "PAHAM / XRAY";
+  position: absolute;
+  right: -34px;
+  bottom: 92px;
+  transform: rotate(-90deg);
+  transform-origin: center;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 7px;
+  letter-spacing: .16em;
+  color: #a3a59f;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.xray-scan {
+  position: absolute;
+  top: 55px;
+  bottom: 37px;
+  left: 42px;
+  width: 1px;
+  background: #355c67;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.xray-code-block {
+  position: relative;
+  border-left: 2px solid #355c67;
+  background: #f2efe7;
+  padding: 18px 18px 18px 20px;
+}
+
+.xray-code-selector {
+  color: #355c67;
+  background: #dfe7e6;
+  padding: 3px 2px;
+}
+
+.xray-code-spender {
+  color: #5d625e;
+  text-decoration-line: underline;
+  text-decoration-color: #355c67;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+}
+
+.xray-code-amount {
+  color: #a44236;
+  background: #f2dfda;
+  padding: 3px 2px;
+}
+
+.xray-annotation {
+  position: relative;
+  min-width: 0;
+}
+
+.xray-annotation::before {
+  content: "";
+  position: absolute;
+  left: 22px;
+  top: 0;
+  width: 1px;
+  height: 12px;
+  background: #c9c6bd;
+}
+
+.xray-reveal {
+  animation: xray-reveal 240ms ease-out both;
+}
+
+@keyframes xray-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes xray-scan {
+  0% {
+    left: 42px;
+    opacity: 0;
+  }
+
+  12% {
+    opacity: .16;
+  }
+
+  48% {
+    left: calc(100% - 42px);
+    opacity: .16;
+  }
+
+  60%,
+  100% {
+    left: calc(100% - 42px);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .xray-scan {
+    animation: xray-scan 6.8s ease-in-out infinite;
+  }
+
+  .xray-annotation:nth-child(1) {
+    animation: xray-reveal 300ms 30ms ease-out both;
+  }
+
+  .xray-annotation:nth-child(2) {
+    animation: xray-reveal 300ms 90ms ease-out both;
+  }
+
+  .xray-annotation:nth-child(3) {
+    animation: xray-reveal 300ms 150ms ease-out both;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .xray-scan {
+    display: none;
+  }
+
+  .xray-reveal,
+  .xray-annotation {
+    animation: none !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .xray-shell::before,
+  .xray-shell::after {
+    display: none;
+  }
+
+  .xray-code-block {
+    padding: 15px;
+  }
+}
+
+
+/* ========================================================
+   PAHAM V5 SHOWPIECE PASS
+   The interface should explain the transaction through
+   composition, not decoration.
+   ======================================================== */
+
+/* --------------------------------------------------------
+   X-RAY
+   -------------------------------------------------------- */
+
+.xray-shell {
+  box-shadow: 0 18px 50px rgba(24, 27, 25, 0.045);
+}
+
+.xray-shell header {
+  min-height: 58px;
+}
+
+.xray-shell button {
+  cursor: pointer;
+}
+
+.xray-code-block {
+  box-shadow: inset 0 0 0 1px rgba(53, 92, 103, 0.035);
+}
+
+/* A physical registration mark rather than decorative art. */
+.xray-shell > header::before {
+  content: "";
+  position: absolute;
+  left: -1px;
+  bottom: -1px;
+  width: 18px;
+  height: 1px;
+  background: #355c67;
+}
+
+/* --------------------------------------------------------
+   SEMANTIC DIFF
+   -------------------------------------------------------- */
+
+/*
+   The ≠ column is deliberately wider and emptier.
+   It is the visual thesis of PAHAM.
+*/
+@media (min-width: 768px) {
+  .paham-dossier:has(.paham-v5-never) {
+    display: block;
+  }
+}
+
+/* Give the mismatch panel a stronger evidence-sheet presence. */
+section:has(> div > div > p:first-child) {
+  text-rendering: geometricPrecision;
+}
+
+/* --------------------------------------------------------
+   FINAL DECISION
+   Keep the real wallet handlers; remove duplicated content.
+   -------------------------------------------------------- */
+
+.paham-demo-decision {
+  position: relative;
+  margin-top: 14px;
+  border-color: #c8c5bc !important;
+  border-left: 3px solid #181b19 !important;
+  background: #fbfaf5;
+  box-shadow: 0 18px 45px rgba(24, 27, 25, 0.045);
+}
+
+/*
+   Original structure:
+   child 1 = duplicated Security Review header
+   child 2 = duplicated explanation/details
+   child 3+ = decision/actions/submitted state
+
+   We preserve child 3+ so no wallet logic is touched.
+*/
+.paham-demo-decision > div:nth-child(1),
+.paham-demo-decision > div:nth-child(2) {
+  display: none !important;
+}
+
+.paham-demo-decision::before {
+  content: "04 / MAKE THE DECISION";
+  display: block;
+  padding: 18px 24px;
+  border-bottom: 1px solid #d1cec4;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 9px;
+  line-height: 1;
+  letter-spacing: .13em;
+  color: #686d68;
+}
+
+.paham-demo-decision > div:nth-child(n+3) {
+  padding: 22px 24px !important;
+}
+
+.paham-demo-decision button {
+  min-height: 42px;
+  padding-left: 18px;
+  padding-right: 18px;
+}
+
+/* Reject is the safe primary action in this controlled warning state. */
+.paham-demo-decision button:first-of-type {
+  background: #181b19;
+  border-color: #181b19;
+  color: #fbfaf5;
+}
+
+/* --------------------------------------------------------
+   DEMO DOSSIERS
+   -------------------------------------------------------- */
+
+.paham-dossier {
+  box-shadow: 0 14px 38px rgba(24, 27, 25, 0.035);
+}
+
+/* Keep the visual system sharp. */
+.paham-dossier,
+.paham-surface,
+.xray-shell {
+  border-radius: 0 !important;
+}
+
+/* --------------------------------------------------------
+   RESPONSIVE
+   -------------------------------------------------------- */
+
+@media (max-width: 767px) {
+  .paham-demo-decision::before {
+    padding: 15px 18px;
+  }
+
+  .paham-demo-decision > div:nth-child(n+3) {
+    padding: 18px !important;
+  }
+}
+
+
+/* ========================================================
+   PAHAM V5.1 DECISION FIX
+   Reset the inherited report pseudo-element before using
+   it as the final decision header.
+   ======================================================== */
+
+.paham-demo-decision {
+  position: relative;
+  overflow: hidden;
+  border-left: 3px solid #b64a3b !important;
+  background: #fbfaf5;
+}
+
+/*
+   paham-report previously used ::before as an absolute
+   vertical rail. V5 reused the same pseudo-element as a
+   heading without resetting its positioning. This reset
+   removes the red block collision.
+*/
+.paham-demo-decision::before {
+  content: "04 / MAKE THE DECISION" !important;
+
+  position: static !important;
+  inset: auto !important;
+
+  display: block !important;
+
+  width: auto !important;
+  height: auto !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+
+  box-sizing: border-box !important;
+
+  margin: 0 !important;
+  padding: 16px 20px !important;
+
+  background: #ece9e1 !important;
+
+  border: 0 !important;
+  border-bottom: 1px solid #d1cec4 !important;
+
+  color: #606560 !important;
+
+  font-family: var(--font-geist-mono), monospace !important;
+  font-size: 9px !important;
+  font-weight: 500 !important;
+  line-height: 1 !important;
+  letter-spacing: .13em !important;
+
+  opacity: 1 !important;
+  transform: none !important;
+  pointer-events: none !important;
+}
+
+/* Keep the action area visually separate from the evidence above. */
+.paham-demo-decision > div:nth-child(n+3) {
+  position: relative;
+  z-index: 1;
+
+  padding: 22px 20px !important;
+
+  background: #fbfaf5;
+}
+
+/* The safe exit remains visually primary. */
+.paham-demo-decision button:first-of-type {
+  background: #181b19 !important;
+  border-color: #181b19 !important;
+  color: #fbfaf5 !important;
+}
+
+/*
+   Continuing is deliberately secondary because it proceeds
+   with the permission PAHAM just surfaced.
+*/
+.paham-demo-decision button:nth-of-type(2) {
+  background: transparent;
+}
+
+/* Submitted transaction should read as a new state,
+   not merge visually into the action controls. */
+.paham-demo-decision a[href*="bscscan"],
+.paham-demo-decision a[href*="testnet.bscscan"] {
+  text-underline-offset: 3px;
+}
+
+@media (max-width: 640px) {
+  .paham-demo-decision::before {
+    padding: 14px 16px !important;
+  }
+
+  .paham-demo-decision > div:nth-child(n+3) {
+    padding: 18px 16px !important;
+  }
+}
+
+
+/* ========================================================
+   PAHAM FINAL SIGNATURE
+   ======================================================== */
+
+/*
+   The semantic mismatch is the visual thesis of the product.
+   Keep it editorial rather than decorative.
+*/
+.paham-semantic-diff-mark {
+  color: #b64a3b;
+  font-size: 58px;
+  font-weight: 300;
+  line-height: .8;
+  letter-spacing: -0.06em;
+}
+
+@media (max-width: 767px) {
+  .paham-semantic-diff-mark {
+    font-size: 42px;
+  }
 }
