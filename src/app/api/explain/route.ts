@@ -129,7 +129,11 @@ Requirements:
 - Explain what permission is granted.
 - Explain the practical consequence.
 - If risk is HIGH, tell the user to verify the spender before signing.
-- Refer to the spender as "alamat yang diberi izin (spender)" in Indonesian.
+- ${
+  language === "id"
+    ? 'Refer to the spender as "alamat yang diberi izin (spender)".'
+    : 'Refer to the spender as "spender" or "address receiving permission".'
+}
 - Do not claim the spender can take more than the available balance.
 `;
 
